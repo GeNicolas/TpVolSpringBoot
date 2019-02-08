@@ -44,6 +44,7 @@
 						</td>
 					
 					<td><a class="btn btn-info" href="edit?id=${v.id}">modifier</a></td>
+					<td><a class="btn btn-info" href="reservationVol?id=${v.id}">reserver</a></td>
 				<td><a class="btn btn-danger" href="delete?id=${v.id}">supprimer</a></td>
 					</tr>
 			</c:forEach>

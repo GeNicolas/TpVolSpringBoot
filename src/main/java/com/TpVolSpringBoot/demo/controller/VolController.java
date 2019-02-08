@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.TpVolSpringBoot.demo.entity.Passager;
+import com.TpVolSpringBoot.demo.entity.Reservation;
 import com.TpVolSpringBoot.demo.entity.Vol;
 import com.TpVolSpringBoot.demo.repository.AeroportRepository;
+import com.TpVolSpringBoot.demo.repository.PassagerRepository;
 import com.TpVolSpringBoot.demo.repository.ReservationRepository;
 import com.TpVolSpringBoot.demo.repository.VolRepository;
 
@@ -26,6 +29,8 @@ public class VolController {
 	private ReservationRepository reservationRepository;
 	@Autowired
 	private AeroportRepository aeroportRepository;
+	@Autowired
+	private PassagerRepository passagerRepo;
 	
 	@GetMapping(value= {"/","/list"}) // ce qu'on rentre dans l'url
 	public String list(Model model) {
@@ -87,5 +92,51 @@ public class VolController {
 	}
 	return "redirect:/vol/list";
 }
+	
+	@GetMapping("/reservationVol")
+	public String reservationVol(@RequestParam(name="id", required=true)Long id, Model model) {
+		Vol vol = volRepository.findById(id).get();
+		//model.addAttribute("vol",vol);
+		Reservation reserv = new Reservation();
+		/*reserv.setNumero(15);
+		
+		Passager passager = new Passager();
+		reserv.setPassager(passager);
+		reserv.setVol(vol);
+		passagerRepo.save(passager);
+		reservationRepository.save(reserv);*/
+		//vol.getReservation().add(reserv);
+		//reserv.setVol(vol);
+		//reservationRepository.save(reserv);
+		//volRepository.save(vol);
+		model.addAttribute("idVol",id);
+		model.addAttribute("reservation", reserv);
+		
+		return "Vol/ReservationVol";
+	}
+	
+	@GetMapping("/saveReservation")
+	public String saveReservation(@Valid @ModelAttribute("reservation") Reservation reservation, BindingResult br,Model model,@RequestParam(name="passager.nom", required=true) String passagerNom, @RequestParam(name="passager.prenom", required=true) String passagerPrenom,@RequestParam(name="vol.id", required=true)Long id) {
+		if (br.hasErrors()) {
+			System.out.println("----------------------------------------------------------------");
+			System.out.println(br.getFieldError());
+			return "Vol/ReservationVol";
+		}
+		
+		else {
+			Vol vol = volRepository.findById(id).get();
+			Passager passager= new Passager();
+			passager.setNom(passagerNom);
+			passager.setPrenom(passagerPrenom);
+			reservation.setPassager(passager);
+			reservation.setVol(vol);
+			vol.getReservation().add(reservation);
+			passagerRepo.save(passager);
+			volRepository.save(vol);
+			reservationRepository.save(reservation);
+		}
+		
+		return "redirect:/vol/list";
+	}
 
 }

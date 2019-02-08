@@ -17,6 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 @Entity
 @Table(name="Reservation")
 @SequenceGenerator(name="seqReservation", sequenceName="seq_reservation", allocationSize = 1, initialValue=1)
@@ -26,9 +28,10 @@ public class Reservation {
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqReservation")
 	private Long id;
 	//@Column(name="date_reservation", nullable=false)
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date date;
-	@Column(name="numero", nullable=false)
+	@Column(name="numero", nullable=true)
 	private Integer numero;
 	@Version
 	private int version;

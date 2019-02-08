@@ -31,13 +31,13 @@ public abstract class Client {
 		@GeneratedValue(strategy= GenerationType.SEQUENCE, generator="seqClient")
 		@Column(name="client_number")
 		 private Long id;
-		@Column(name="client_surname", length = 150, nullable = false)
+		@Column(name="client_surname", nullable = false)
 		 private String nom;
 		@Column(name="client_numerotel")
 		 private Integer numerotel;
-		@Column(name="client_fax", length = 100, nullable = false)
+		@Column(name="client_fax", nullable = false)
 		 private Integer numerofax;
-		@Column(name="client_email",length = 100, nullable = false)
+		@Column(name="client_email", nullable = false)
 		 private String email;
 		@Embedded	 
 		@AttributeOverrides({ @AttributeOverride(name = "adresse", column = @Column(name = "adress")),

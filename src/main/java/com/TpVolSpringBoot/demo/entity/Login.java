@@ -1,15 +1,20 @@
 package com.TpVolSpringBoot.demo.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Version;
+
+import com.TpVolSpringBoot.demo.entityConfiguration.LoginRole;
 
 @Entity
 @Table(name = "Login")
@@ -19,12 +24,48 @@ public class Login {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="seqLogin")
 	private Long id;
-	@Column(name="login", length=30)
+	@Column(name="login")
 	private String login;
-	@Column(name="password", length =30)
+	@Column(name="password")
 	private String motDePasse;
 	@Column(name="admin")
-	private boolean admin;
+	private Boolean admin;
+	@Column(name="enable")
+	private Boolean enable;
+	@OneToMany(mappedBy = "log")
+	private List<LoginRole> roles;
+	
+	
+	public List<LoginRole> getRoles() {
+		return roles;
+	}
+
+
+	public void setRole(List<LoginRole> roles) {
+		this.roles = roles;
+	}
+
+
+	public Boolean getEnable() {
+		return enable;
+	}
+
+
+	public Boolean getAdmin() {
+		return admin;
+	}
+
+
+	public void setAdmin(Boolean admin) {
+		this.admin = admin;
+	}
+
+
+	public void setEnable(Boolean enable) {
+		this.enable = enable;
+	}
+
+
 	@Version
 	private int version;
 	

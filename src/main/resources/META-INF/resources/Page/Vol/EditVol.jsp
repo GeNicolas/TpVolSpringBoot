@@ -23,13 +23,13 @@
 		<div class="form-group">
 			<form:label path="aeroportDepart.id" >Aeroport Depart</form:label>
 				<form:select path="aeroportDepart.id">
-					<form:options items="${aeroport}" itemLabel="nom" itemValue="nom"/>
+					<form:options items="${aeroport}" itemLabel="nom"/>
 				</form:select>
 		</div>
 		<div class="form-group">
 			<form:label path="aeroportArrivee.id">Aeroport Arrivee</form:label>
-				<form:select path="aeroportDepart.id">
-					<form:options items="${aeroport}" itemLabel="nom" itemValue="nom"/>
+				<form:select path="aeroportArrivee.id">
+					<form:options items="${aeroport}" itemLabel="nom"/>
 				</form:select>
 		</div>
 		<div class="form-group">

@@ -34,6 +34,23 @@ public class VolController {
 		return "Vol/listVols"; // chemin de la page qu'il doit retourner
 	}
 	
+	@GetMapping("/rechercheVol")
+	public String rechercheVol(Model model) {
+		model.addAttribute("aeroport", aeroportRepository.findAll());
+		model.addAttribute("vol", new Vol());
+		return "Vol/RechercheVol";
+	}
+	
+	@GetMapping("/afficherRechercheVol")
+	public String afficherRechercheVol(@RequestParam(name="aeroportArrivee.id", required=true) Long idAeroportArrivee, @RequestParam(name="aeroportDepart.id", required=true) Long idAeroportDepart, Model model){
+		model.addAttribute("vol", volRepository.findWithAeroportArriveeDepart(aeroportRepository.findById(idAeroportArrivee).get(), aeroportRepository.findById(idAeroportDepart).get()).get());
+		model.addAttribute("repovol", volRepository);
+		System.out.println("yopyopyopyopyopyopyopyopyopypoyopypoypyopyopoypo");
+		
+		System.out.println(volRepository.findWithAeroportArriveeDepart(aeroportRepository.findById(idAeroportArrivee).get(), aeroportRepository.findById(idAeroportDepart).get()));
+		return "Vol/listVols";
+	}
+	
 	@GetMapping("/delete")
 	public String delete(@RequestParam(name="id", required=true) Long id) {
 		volRepository.deleteById(id);
@@ -62,6 +79,8 @@ public class VolController {
 	@GetMapping("/save")
 	public String save(@Valid @ModelAttribute("vol") Vol vol, BindingResult br, Model model) {
 		if(br.hasErrors()) {
+			//System.out.println("----------------------------------------------------------------");
+			//System.out.println(br.getFieldError());
 			return "Vol/EditVol";
 	}else {
 		volRepository.save(vol);

@@ -1,8 +1,10 @@
 package com.TpVolSpringBoot.demo.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.TpVolSpringBoot.demo.entity.Aeroport;
@@ -20,4 +22,11 @@ public interface VolRepository extends JpaRepository<Vol,Long> {
 	Optional<Vol> findAllWithAeroportArrivee(Aeroport aeroportArrive); //Requete nomm�e
 	Optional<Vol> findAllWithReservation(Reservation reservation); //Requete nomm�e
 	//void deleteEscale(Vol vol); // suppr Vol entraine suppr des escales --> cf VolService
+	
+	@Query("select distinct v from Vol v where v.aeroportArrivee=:aeroportArrivee AND v.aeroportDepart=:aeroportDepart")
+	Optional<List<Vol>> findWithAeroportArriveeDepart(@Param("aeroportArrivee") Aeroport aeroportArrivee,@Param("aeroportDepart") Aeroport aeroportDepart);
+	
+	
+	
+
 }
